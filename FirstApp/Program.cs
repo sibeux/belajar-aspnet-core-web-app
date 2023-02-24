@@ -1,5 +1,10 @@
+using FirstApp.Course_Udemy.Routing.CustomConstraints;
+
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddRouting(option => {
+    option.ConstraintMap.Add("months", typeof(MonthCustomConstraints));
+});
 var app = builder.Build();
 
 app.Use(async (context, next) =>
@@ -95,17 +100,33 @@ app.UseEndpoints(endpoints =>
     {
         int year = Convert.ToInt32(context.Request.RouteValues["year"]);
         string? month = Convert.ToString(context.Request.RouteValues["month"]);
+
         if (month == "apr" || month == "jul" || month == "oct" || month == "jan"){
             await context.Response.WriteAsync($"\nin meeting = {year} - {month}");
         } else {
+            // this code will never run, because the regex will check the month
             await context.Response.WriteAsync($"\nin meeting = {year} - {month} is not valid");
+        }
+    });
+
+    // endpoints custom constraints
+    endpoints.Map("playing/{year:int:min(2000)}/{month:months}", async (context) =>
+    {
+        int year = Convert.ToInt32(context.Request.RouteValues["year"]);
+        string? month = Convert.ToString(context.Request.RouteValues["month"]);
+
+        if (month == "apr" || month == "jul" || month == "oct" || month == "jan"){
+            await context.Response.WriteAsync($"\nin playing = {year} - {month}");
+        } else {
+            // this code will never run, because the regex will check the month
+            await context.Response.WriteAsync($"\nin playing = {year} - {month} is not valid");
         }
     });
 });
 
 app.Run(async context =>
 {
-    await context.Response.WriteAsync($"Request receive at {context.Request.Path}");
+    await context.Response.WriteAsync($"Not route matched at {context.Request.Path}");
 });
 
 app.Run();
