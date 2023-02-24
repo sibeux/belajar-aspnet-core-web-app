@@ -55,15 +55,22 @@ app.UseEndpoints(endpoints =>
     });
 
     // endpoints products
-    endpoints.Map("products/details/{productname?}", async (context) =>
+    endpoints.Map("products/details/{id:int?}", async (context) =>
     {
-        if (context.Request.RouteValues.ContainsKey("productname"))
+        if (context.Request.RouteValues.ContainsKey("id"))
         {
-            string? productName = Convert.ToString(context.Request.RouteValues["productname"]);
-            await context.Response.WriteAsync($"\nin products = {productName}");
+            int? productId = Convert.ToInt32(context.Request.RouteValues["id"]);
+            await context.Response.WriteAsync($"\nin products = {productId}");
         } else {
             await context.Response.WriteAsync($"\nin products = no product name");
         }
+    });
+
+    // endpoints date time
+    endpoints.Map("date/{year:datetime}", async (context) =>
+    {
+        DateTime year = Convert.ToDateTime(context.Request.RouteValues["year"]);
+        await context.Response.WriteAsync($"\nin date = {year.ToShortDateString()}");
     });
 });
 
