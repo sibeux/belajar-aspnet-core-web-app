@@ -47,8 +47,18 @@ app.UseEndpoints(endpoints =>
         await context.Response.WriteAsync($"\nin files = {fileName}.{extension}");
     });
 
+    // minlength = minimum length, minlength(3)
+    // maxlength = maximum length, maxlength(4)
+    // length = minimum and maximum length, length(3,4)
+    // length = specific length, length(7)
+    // min = minimum value, min(3)
+    // max = maximum value, max(4)
+    // range = minimum and maximum value, range(1,10)
+    // alpha = only alphabet, alpha
+    // regex = regular expression, regex(^[a-zA-Z0-9]*$)
+
     // endpoints employee
-    endpoints.Map("employee/profile/{employeename=sibe}", async (context) =>
+    endpoints.Map("employee/profile/{employeename:length(3,4):alpha=sibe}", async (context) =>
     {
         string? employeeName = Convert.ToString(context.Request.RouteValues["employeename"]);
         await context.Response.WriteAsync($"\nin employee = {employeeName}");
@@ -78,6 +88,18 @@ app.UseEndpoints(endpoints =>
     {
         Guid id = Guid.Parse(Convert.ToString(context.Request.RouteValues["id"]));
         await context.Response.WriteAsync($"\nin guid = {id}");
+    });
+
+    // endpoints regex
+    endpoints.Map("meeting/{year:int:min(2000)}/{month:regex(^(apr|jul|oct|jan)$)}", async (context) =>
+    {
+        int year = Convert.ToInt32(context.Request.RouteValues["year"]);
+        string? month = Convert.ToString(context.Request.RouteValues["month"]);
+        if (month == "apr" || month == "jul" || month == "oct" || month == "jan"){
+            await context.Response.WriteAsync($"\nin meeting = {year} - {month}");
+        } else {
+            await context.Response.WriteAsync($"\nin meeting = {year} - {month} is not valid");
+        }
     });
 });
 
