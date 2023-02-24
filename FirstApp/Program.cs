@@ -72,6 +72,13 @@ app.UseEndpoints(endpoints =>
         DateTime year = Convert.ToDateTime(context.Request.RouteValues["year"]);
         await context.Response.WriteAsync($"\nin date = {year.ToShortDateString()}");
     });
+
+    // endpoints GUID
+    endpoints.Map("guid/{id:guid}", async (context) =>
+    {
+        Guid id = Guid.Parse(Convert.ToString(context.Request.RouteValues["id"]));
+        await context.Response.WriteAsync($"\nin guid = {id}");
+    });
 });
 
 app.Run(async context =>
