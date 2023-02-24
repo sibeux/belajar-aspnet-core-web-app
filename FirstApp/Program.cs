@@ -53,6 +53,18 @@ app.UseEndpoints(endpoints =>
         string? employeeName = Convert.ToString(context.Request.RouteValues["employeename"]);
         await context.Response.WriteAsync($"\nin employee = {employeeName}");
     });
+
+    // endpoints products
+    endpoints.Map("products/details/{productname?}", async (context) =>
+    {
+        if (context.Request.RouteValues.ContainsKey("productname"))
+        {
+            string? productName = Convert.ToString(context.Request.RouteValues["productname"]);
+            await context.Response.WriteAsync($"\nin products = {productName}");
+        } else {
+            await context.Response.WriteAsync($"\nin products = no product name");
+        }
+    });
 });
 
 app.Run(async context =>
