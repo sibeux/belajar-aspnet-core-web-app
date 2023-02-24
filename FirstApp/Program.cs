@@ -48,7 +48,7 @@ app.UseEndpoints(endpoints =>
     });
 
     // endpoints employee
-    endpoints.Map("employee/profile/{employeename}", async (context) =>
+    endpoints.Map("employee/profile/{employeename=sibe}", async (context) =>
     {
         string? employeeName = Convert.ToString(context.Request.RouteValues["employeename"]);
         await context.Response.WriteAsync($"\nin employee = {employeeName}");
