@@ -1,12 +1,26 @@
 using FirstApp.Course_Udemy.Routing.CustomConstraints;
+using Microsoft.Extensions.FileProviders;
 
-var builder = WebApplication.CreateBuilder(args);
+// var builder = WebApplication.CreateBuilder(args);
 
+// this builder can access file in the folder myroot and wwwroot
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions(){
+    WebRootPath = "Course_Udemy/Routing/myroot"
+});
+
+// urutan dalam mengakses file dari root path
+// 1. wwwroot
+// 2. myroot
+// 3. myotherroot
+// saat ada 2 file dengan nama yang sama, maka yang akan diakses adalah file yang ada di root path pertama
+
+// custom route constraints
 builder.Services.AddRouting(option => {
     option.ConstraintMap.Add("months", typeof(MonthCustomConstraints));
 });
 var app = builder.Build();
 
+// endpoint routing
 app.Use(async (context, next) =>
 {
     Microsoft.AspNetCore.Http.Endpoint? endpoint = context.GetEndpoint();
@@ -19,6 +33,13 @@ app.Use(async (context, next) =>
 
 // enable routing
 app.UseRouting();
+
+// enable static files
+app.UseStaticFiles(); // works with the web root path (myroot)
+app.UseStaticFiles(new StaticFileOptions(){
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(builder.Environment.ContentRootPath, "Course_Udemy/Routing/myotherroot"))
+}); // works with "mytoherroot" path
 
 // creating end points
 app.UseEndpoints(endpoints =>
@@ -110,6 +131,7 @@ app.UseEndpoints(endpoints =>
     });
 
     // endpoints custom constraints
+    // playing/2023/jan
     endpoints.Map("playing/{year:int:min(2000)}/{month:months}", async (context) =>
     {
         int year = Convert.ToInt32(context.Request.RouteValues["year"]);
@@ -121,6 +143,26 @@ app.UseEndpoints(endpoints =>
             // this code will never run, because the regex will check the month
             await context.Response.WriteAsync($"\nin playing = {year} - {month} is not valid");
         }
+    });
+
+    // endpoints selection orders
+    // playing/2023/jan
+    endpoints.Map("playing/2023/{month:months}", async (context) =>
+    {
+        string? month = Convert.ToString(context.Request.RouteValues["month"]);
+
+        if (month == "apr" || month == "jul" || month == "oct" || month == "jan"){
+            await context.Response.WriteAsync($"\nin selection orders = 2023 - {month}");
+        } else {
+            // this code will never run, because the regex will check the month
+            await context.Response.WriteAsync($"\nin selection orders = 2023 - {month} is not valid");
+        }
+    });
+
+    // static files
+    endpoints.MapGet("/", async (context) =>
+    {
+        await context.Response.WriteAsync("Hello World!");
     });
 });
 
