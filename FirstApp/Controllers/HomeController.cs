@@ -2,23 +2,32 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FirstApp.Controller
 {
-    public class HomeController
+    [Controller] // optional if class name ends with "Controller"
+    public class HomeController : Microsoft.AspNetCore.Mvc.Controller
     {
         [Route("home")]
         [Route("/")]
-        public string home()
+        public string Home()
         {
             return "Hello from home";
         }
 
         [Route("index")]
-        public string index()
+        public ContentResult Index()
         {
-            return "Hello from index";
+            //return new ContentResult()
+            //{
+            //    Content = "Hello from index",
+            //    ContentType = "text/plain"
+            //};
+
+            //return Content("Hello from index", "text/plain");
+
+            return Content("<h1>Welcome</h1> <h2>Hello from Index</h2>", "text/html");
         }
 
         [Route("about")]
-        public string about()
+        public string About()
         {
             return "Hello from about";
         }
