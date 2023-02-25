@@ -1,7 +1,11 @@
+using Microsoft.Extensions.DependencyInjection;
+
 var builder = WebApplication.CreateBuilder(args);
 
-var app = builder.Build();
+// add all controllers class as services
+builder.Services.AddControllers(); 
 
-app.MapGet("/", () => "Hello World!");
+var app = builder.Build();
+app.MapControllers();
 
 app.Run();
