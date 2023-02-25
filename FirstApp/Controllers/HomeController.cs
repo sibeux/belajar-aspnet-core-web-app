@@ -89,5 +89,94 @@ namespace FirstApp.Controller
                 , "application/pdf"
                 );
         }
+
+        // IActionResult
+        // IActionResult adalah parent dari semua method result di atas
+        // jadi dengan pake class ini, semua langsung bisa dipakai
+        [Route("/book")]
+        public IActionResult BookIndex()
+        {
+            // book id should be supplied
+            if (!Request.Query.ContainsKey("bookid"))
+            {
+                //Response.StatusCode = 400;
+                //return Content("book id is not supplied");
+                return BadRequest("book id is not supplied");
+            }
+
+            // book id can't empty
+            if (String.IsNullOrEmpty(Convert.ToString(Request.Query["bookid"])))
+            {
+                //Response.StatusCode = 400;
+                //return Content("Book id can't be null or empty");
+                return BadRequest("Book id can't be null or empty");
+            }
+
+            // book id should be between 1 to 1000
+            int bookID = Convert.ToInt16(Request.Query["bookid"]);
+            if (bookID <= 0)
+            {
+                //Response.StatusCode = 400;
+                //return Content("book id can't be less than or equal to zero");
+                return NotFound("book id can't be less than or equal to zero");
+            } if (bookID > 1000)
+            {
+                //Response.StatusCode = 400;
+                //return Content("book id can't be greater than 1000");
+                return NotFound("book id can't be greater than 1000");
+            }
+
+            // user must be logged in
+            if (Convert.ToBoolean(Request.Query["isloggedin"]) == false)
+            {
+                // Response.StatusCode = 401
+                //return Content("the user must be logged in");
+                return Unauthorized("the user must be logged in");
+                //return StatusCode(401);
+            }
+
+            // REDIRECT PERMANENT VERY DANGER, BECAUSE IT'S HARD TO CHANGE THE URL
+
+            // 302 - found
+            // return new RedirectToActionResult("Books", "Store", new {});
+            // shorthand
+            return RedirectToAction("Books", "Store", new {});
+
+            // 301 - moved permanently
+            //return new RedirectToActionResult("Books", "Store", new { }, true);
+            // shorthand
+            //return RedirectToActionPermanent("Books", "Store", new { id = bookID });
+        }
+
+        // local redirect 
+        [Route("bookstore")]
+        public IActionResult BookStore()
+        {
+            int bookID = Convert.ToInt32(Request.Query["bookid"]);
+
+            return LocalRedirect($"store/books/{bookID}");
+
+            //return LocalRedirectPermanent($"store/books/2");
+        }
+
+        // redirect result
+        [Route("game")]
+        public IActionResult Game()
+        {
+            int id = Convert.ToInt32(Request.Query["id"]);
+
+            return Redirect($"game/console/{id}");
+
+            //return RedirectPermanent($"game/console/{id}");
+        }
+
+        // redirect to action
+        [Route("play")]
+        public IActionResult Play()
+        {
+            int id = Convert.ToInt32(Request.Query["id"]);
+
+            return RedirectToAction("Games", "Game", new { id = id });
+        }
     }
 }
