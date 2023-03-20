@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+﻿using FirstApp.Course_Udemy.CustomValidators;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,15 +30,20 @@ namespace FirstApp.Models
         [Range(0, 100, ErrorMessage = "{0} should be beetween ${1} and ${2}")]
         public double price { get; set; }
 
+        //[MinimumYearValidator(2002,ErrorMessage = "Year should be greater than {0}")]
+        [MinimumYearValidator(2002)]
+        public DateTime? DateofBirth { get; set; }
+        
         public override string ToString()
         {
-            return $"Person object - person name : {firstName + lastName}\n" +
-                $"age : {age}\n" +
-                $"email : {email}\n" +
-                $"phone : {phone}\n" +
-                $"password : {password}\n" +
-                $"confirmPassword : {confirmPassword}\n" +
-                $"price : {price}";
+            return $"Person object - person name: {firstName + lastName}\n" +
+                $"age: {age}\n" +
+                $"email: {email}\n" +
+                $"phone: {phone}\n" +
+                $"password: {password}\n" +
+                $"confirmPassword: {confirmPassword}\n" +
+                $"price: {price}\n" +
+                $"Date Birth: {DateofBirth}";
         }
     }
 }
