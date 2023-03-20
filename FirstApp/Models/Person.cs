@@ -30,9 +30,14 @@ namespace FirstApp.Models
         [Range(0, 100, ErrorMessage = "{0} should be beetween ${1} and ${2}")]
         public double price { get; set; }
 
-        //[MinimumYearValidator(2002,ErrorMessage = "Year should be greater than {0}")]
-        [MinimumYearValidator(2002)]
+        //[MinimumYearValidator(2005,ErrorMessage = "Year should be greater than {0}")]
+        [MinimumYearValidator(2005)]
         public DateTime? DateofBirth { get; set; }
+
+        public DateTime? FromDate { get; set; }
+
+        [DateRangeValidator("FromDate", ErrorMessage = "To Date should be greater than or equal 'From Date'")]
+        public DateTime? ToDate { get; set; }
         
         public override string ToString()
         {
@@ -43,7 +48,9 @@ namespace FirstApp.Models
                 $"password: {password}\n" +
                 $"confirmPassword: {confirmPassword}\n" +
                 $"price: {price}\n" +
-                $"Date Birth: {DateofBirth}";
+                $"Date Birth: {DateofBirth}\n" +
+                $"FromDate: {FromDate}\n" +
+                $"ToDate: {ToDate}\n";
         }
     }
 }
