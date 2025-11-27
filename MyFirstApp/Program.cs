@@ -22,6 +22,15 @@ app.Run(async (HttpContext context) =>
     await context.Response.WriteAsync(" <h2>World</h2>");
     await context.Response.WriteAsync($"<p>{path}</p>");
     await context.Response.WriteAsync($"<p>{method}</p>");
+
+    if (method == "GET")
+    {
+        if (context.Request.Query.ContainsKey("id"))
+        {
+            string id = context.Request.Query["id"];
+            await context.Response.WriteAsync($"<p>{id}</p>");
+        }
+    }
 });
 
 app.Run();
