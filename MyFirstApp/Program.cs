@@ -1,3 +1,6 @@
+using System.IO;
+using Microsoft.Extensions.Primitives;
+
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
@@ -39,6 +42,19 @@ app.Run(async (HttpContext context) =>
         string authKey  = context.Request.Headers["Auth-Key"];
         await context.Response.WriteAsync($"<p>{userAgent}</p>");
         await context.Response.WriteAsync($"<p>{authKey}</p>");
+    }
+
+    // Post method
+    StreamReader reader = new StreamReader(context.Request.Body);
+    string body = await reader.ReadToEndAsync();
+
+    Dictionary<string, StringValues> queryDict =
+        Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(body);
+
+    if (queryDict.ContainsKey("name"))
+    {
+        string name = queryDict["name"][0];
+        await context.Response.WriteAsync(name);
     }
 });
 
