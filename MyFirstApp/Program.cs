@@ -35,7 +35,10 @@ app.Run(async (HttpContext context) =>
     if (context.Request.Headers.ContainsKey("user-agent"))
     {
         string userAgent = context.Request.Headers["User-Agent"];
+        // Modifikasi dari postman
+        string authKey  = context.Request.Headers["Auth-Key"];
         await context.Response.WriteAsync($"<p>{userAgent}</p>");
+        await context.Response.WriteAsync($"<p>{authKey}</p>");
     }
 });
 
