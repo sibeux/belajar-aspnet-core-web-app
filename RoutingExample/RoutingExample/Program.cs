@@ -35,7 +35,9 @@ app.Map("employee/profile/{EmployeeName=scott}", async context =>
 
 // eg: products/details/1
 // Opsional value parameter
-app.Map("products/details/{id?}", async context =>
+//app.Map("products/details/{id?}", async context =>
+// Route constraints
+app.Map("products/details/{id:int?}", async context =>
 {
     if (context.Request.RouteValues.ContainsKey("id"))
     {
@@ -45,6 +47,14 @@ app.Map("products/details/{id?}", async context =>
     {
         await context.Response.WriteAsync("Product details: product detail not set yet");
     }
+});
+
+// Eg: daily-digest-report/{reportdate}
+app.Map("daily-digest-report/{reportdate:datetime}", async (context) =>
+{
+    DateTime reportDate = Convert.ToDateTime(context.Request.RouteValues["reportdate"]);
+
+    await context.Response.WriteAsync($"in daily-digest-report: {reportDate.ToShortDateString()}");
 });
 
 // fallback for any other requests
