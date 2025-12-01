@@ -26,6 +26,7 @@ app.Map("files/{filename}.{extension}", async context =>
 });
 
 // eg: employee/profile/john
+// Default value parameter
 app.Map("employee/profile/{EmployeeName=scott}", async context =>
 {
     string? employeeName = Convert.ToString(context.Request.RouteValues["employeename"]);
@@ -33,10 +34,17 @@ app.Map("employee/profile/{EmployeeName=scott}", async context =>
 });
 
 // eg: products/details/1
-app.Map("products/details/{id=1}", async context =>
+// Opsional value parameter
+app.Map("products/details/{id?}", async context =>
 {
-    int id = Convert.ToInt32(context.Request.RouteValues["id"]);
-    await context.Response.WriteAsync($"Product detail: {id}");
+    if (context.Request.RouteValues.ContainsKey("id"))
+    {
+        int id = Convert.ToInt32(context.Request.RouteValues["id"]);
+        await context.Response.WriteAsync($"Product detail: {id}");
+    } else
+    {
+        await context.Response.WriteAsync("Product details: product detail not set yet");
+    }
 });
 
 // fallback for any other requests
