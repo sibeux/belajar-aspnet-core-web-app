@@ -5,7 +5,8 @@ public class MyCustomMiddleware : IMiddleware
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
         await context.Response.WriteAsync("custom middleware - start\n");
-        await next(context);
+        // Setelah dari sini, akan lanjut ke middleware berikutnya, habis itu baru balik lagi ke sini.
+        await next(context); 
         await context.Response.WriteAsync("custom middleware - end\n");
     }
 }
