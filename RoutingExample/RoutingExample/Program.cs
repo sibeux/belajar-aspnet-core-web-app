@@ -27,7 +27,12 @@ app.Map("files/{filename}.{extension}", async context =>
 
 // eg: employee/profile/john
 // Default value parameter
-app.Map("employee/profile/{EmployeeName=scott}", async context =>
+//app.Map("employee/profile/{EmployeeName=scott}", async context =>
+// Min Max length
+//app.Map("employee/profile/{EmployeeName:minlength(3):maxlength(7)=scott}", async context =>
+// alternative min max length
+app.Map("employee/profile/{EmployeeName:length(3,7):alpha=scott}", async context =>
+
 {
     string? employeeName = Convert.ToString(context.Request.RouteValues["employeename"]);
     await context.Response.WriteAsync($"In Employee - {employeeName}");
@@ -64,11 +69,19 @@ app.Map("cities/{cityid:guid}", async (context) =>
     await context.Response.WriteAsync($"City information - {cityId}");
 });
 
+// eg: sales-report/2030/apr
+app.Map("sales-report/{year:int:min(1900)}/{month:regex(^(apr|jul|oct|jan)$)}", async context =>
+{
+    int year = Convert.ToInt32(context.Request.RouteValues["year"]);
+    string? month = Convert.ToString(context.Request.RouteValues["month"]);
+
+    await context.Response.WriteAsync($"Sales report - {year} - {month}");
+});
 
 // fallback for any other requests
 app.MapFallback(async (context) =>
 {   
-    await context.Response.WriteAsync($"Request received at {context.Request.Path}");
+    await context.Response.WriteAsync($"No route match at {context.Request.Path}");
 });
 
 app.Run();
