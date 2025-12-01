@@ -57,6 +57,14 @@ app.Map("daily-digest-report/{reportdate:datetime}", async (context) =>
     await context.Response.WriteAsync($"in daily-digest-report: {reportDate.ToShortDateString()}");
 });
 
+// eg: cities/{cityid}
+app.Map("cities/{cityid:guid}", async (context) =>
+{
+    Guid cityId = Guid.Parse(Convert.ToString(context.Request.RouteValues["cityid"])!);
+    await context.Response.WriteAsync($"City information - {cityId}");
+});
+
+
 // fallback for any other requests
 app.MapFallback(async (context) =>
 {   
