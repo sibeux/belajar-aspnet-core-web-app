@@ -26,10 +26,17 @@ app.Map("files/{filename}.{extension}", async context =>
 });
 
 // eg: employee/profile/john
-app.Map("employee/profile/{EmployeeName}", async context =>
+app.Map("employee/profile/{EmployeeName=scott}", async context =>
 {
     string? employeeName = Convert.ToString(context.Request.RouteValues["employeename"]);
     await context.Response.WriteAsync($"In Employee - {employeeName}");
+});
+
+// eg: products/details/1
+app.Map("products/details/{id=1}", async context =>
+{
+    int id = Convert.ToInt32(context.Request.RouteValues["id"]);
+    await context.Response.WriteAsync($"Product detail: {id}");
 });
 
 // fallback for any other requests
