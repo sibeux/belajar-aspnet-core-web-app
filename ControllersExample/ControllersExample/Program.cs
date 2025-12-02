@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // shortcut to add controllers
 builder.Services.AddControllers();
 var app = builder.Build();
-
+app.UseStaticFiles();
+app.UseRouting();
 app.MapControllers();
 app.Run();

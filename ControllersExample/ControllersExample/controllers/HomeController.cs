@@ -46,6 +46,30 @@ namespace ControllersExample.Controllers
             return Json(person);
         }
 
+        [Route("file-download")]
+        public VirtualFileResult FileDownload()
+        {
+            //return new VirtualFileResult("/sample.pdf", "application/pdf");
+            return File("/sample.pdf", "application/pdf");
+        }
+
+        [Route("file-download2")]
+        public PhysicalFileResult FileDownload2()
+        {
+            //return new PhysicalFileResult(@"C:\sibeuxdev\Website\sample.pdf", "application/pdf");
+
+            return PhysicalFile(@"C:\sibeuxdev\Website\sample.pdf", "application/pdf");
+        }
+
+        [Route("file-download3")]
+        public FileContentResult FileDownload3()
+        {
+            byte[] bytes = System.IO.File.ReadAllBytes(@"C:\sibeuxdev\Website\sample.pdf");
+            //return new FileContentResult(bytes, "application/pdf");
+
+            return File(bytes, "application/pdf");
+        }
+
         [Route("about")]
         public string About()
         {
