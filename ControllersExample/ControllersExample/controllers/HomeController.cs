@@ -7,14 +7,25 @@ namespace ControllersExample.Controllers
     // 2. tidak memberikan tag [Controller] dan menamakan file dengan suffix controller. eg: HomeController
     // 3. best practice. beri tag + naming dengan controller
     [Controller]
-    public class HomeController
+    public class HomeController : Controller
     {
         // multiple route
         [Route("home")]
         [Route("/")]
-        public string Index()
+        //public string Index()
+        public ContentResult Index()
         {
-            return "hello from index";
+            //return "hello from index";
+
+            //return new ContentResult()
+            //{
+            //    Content = "Hello from index", ContentType = "text/plain"
+            //};
+
+            // ! simplified
+            //return Content("Hello from index", "text/plain");
+
+            return Content("<h1>Hello from index</h1>", "text/html");
         }
 
         [Route("about")]
