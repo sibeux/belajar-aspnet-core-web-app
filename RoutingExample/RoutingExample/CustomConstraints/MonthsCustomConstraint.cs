@@ -16,6 +16,11 @@ namespace RoutingExample.CustomConstraints
             Regex regex = new Regex($"^(apr|jul|oct|jan)$");
             string? monthValue = Convert.ToString(values[routeKey]);
 
+            if (monthValue == null)
+            {
+                return false;
+            }
+
             if (regex.IsMatch(monthValue))
             {
                 return true; // it's a match

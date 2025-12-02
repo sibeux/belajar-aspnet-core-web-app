@@ -88,6 +88,13 @@ app.Map("sales-report/{year:int:min(1900)}/{month:months}", async context =>
     await context.Response.WriteAsync($"Sales report - {year} - {month}");
 });
 
+// precedence/priority endpoint
+// eg: sales-report/2024/jan
+app.Map("sales-report/2024/jan", async (context) =>
+{
+    await context.Response.WriteAsync($"Sales report exclusively for 2024/january");
+});
+
 // fallback for any other requests
 app.MapFallback(async (context) =>
 {   
