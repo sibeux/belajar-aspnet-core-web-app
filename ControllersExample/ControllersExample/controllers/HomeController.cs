@@ -4,10 +4,24 @@ namespace ControllersExample.Controllers
 {
     public class HomeController
     {
-        [Route("sayhello")]
-        public string method1()
+        // multiple route
+        [Route("home")]
+        [Route("/")]
+        public string Index()
         {
-            return "hello from method1";
+            return "hello from index";
+        }
+
+        [Route("about")]
+        public string About()
+        {
+            return "hello from about";
+        }
+
+        [Route("contact-us/{mobile:regex(^\\d{{10}}$)}")]
+        public string Contact()
+        {
+            return "hello from contact";
         }
     }
 }
