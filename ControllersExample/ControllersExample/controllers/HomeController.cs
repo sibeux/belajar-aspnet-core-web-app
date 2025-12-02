@@ -50,6 +50,7 @@ namespace ControllersExample.Controllers
         public VirtualFileResult FileDownload()
         {
             //return new VirtualFileResult("/sample.pdf", "application/pdf");
+
             return File("/sample.pdf", "application/pdf");
         }
 
