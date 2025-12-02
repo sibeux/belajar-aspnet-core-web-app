@@ -57,14 +57,38 @@ namespace IActionResultExample.Controllers
 
             //return File("/sample.pdf", "application/pdf");
 
-            return new RedirectToActionResult("Books", "Store", new
-            {
-
-            }); // 302 - found
+            // 302 - found
+            // "Books", "Store", maksudnya arahkan ke method Books di controller Store.
+            //return new RedirectToActionResult("Books", "Store", new
+            //{
+            //    id = bookId
+            //}); 
+            // simplified
+            //return RedirectToAction("Books", "Store", new
+            //{
+            //    id = bookId
+            //}); 
 
             // 301 - permanent redirect
             //return new RedirectToActionResult("Books", "Store", new { }, true); 
             //return new RedirectToActionResult("Books", "Store", new { }, permanent: true); 
+            //return RedirectToActionPermanent("Books", "Store", new
+            //{
+            //    id = bookId
+            //});
+
+            // 302 - found
+            //return new LocalRedirectResult($"store/books/{bookId}");
+            //return LocalRedirect(($"store/books/{bookId}"));
+
+            // 301 - moved permanently
+            //return new LocalRedirectResult($"store/books/{bookId}", true);
+            //return LocalRedirectPermanent(($"store/books/{bookId}"));
+
+            // 302 - found
+            //return Redirect($"store/books/{bookId}");
+            // 301 - moved permanently
+            return RedirectPermanent($"store/books/{bookId}");
         }
     }
 }
