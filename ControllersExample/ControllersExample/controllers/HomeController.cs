@@ -2,6 +2,11 @@
 
 namespace ControllersExample.Controllers
 {
+    // ada 3 pendekatan dalam mendeklarasikan class sebagai controller
+    // 1. memberikan tag [Controller] dan menamakan file bebas. eg: Home
+    // 2. tidak memberikan tag [Controller] dan menamakan file dengan suffix controller. eg: HomeController
+    // 3. best practice. beri tag + naming dengan controller
+    [Controller]
     public class HomeController
     {
         // multiple route
