@@ -5,10 +5,14 @@ namespace IActionResultExample.Controllers
     public class HomeController : Controller
     {
         [Route("bookstore")]
-        public IActionResult Index()
+        //public IActionResult Index()
+        // Model binding
+        public IActionResult Index(int? bookid, bool? isloggedin)
         {
             // Book id should be applied
-            if (!Request.Query.ContainsKey("bookid"))
+            //if (!Request.Query.ContainsKey("bookid"))
+            // model binding
+            if (bookid.HasValue == false)
             {
                 //Response.StatusCode = 400;
                 //return Content("Book id is not supllied");
@@ -16,21 +20,21 @@ namespace IActionResultExample.Controllers
                 // simplified
                 //return new BadRequestResult();
 
-                return BadRequest("Book id is not supllied");
+                return BadRequest("Book id is not supllied or maybe empty");
             }
 
-            // Book id can't be empty
-            if (string.IsNullOrEmpty(Convert.ToString(Request.Query["bookid"])))
+            // Book id can't be less than or equal to zero
+            if (bookid <= 0)
             {
                 //Response.StatusCode = 400;
                 //return Content("Book id can't be null or empty");
 
-                return BadRequest("Book id can't be null or empty");
+                return BadRequest("Book id can't be less than or equal to zero");
             }
 
             // book id should be 1 to 1000
-            int bookId = Convert.ToUInt16(ControllerContext.HttpContext.Request.Query["bookid"]);
-            if (bookId <= 0)
+            //int bookId = Convert.ToUInt16(ControllerContext.HttpContext.Request.Query["bookid"]);
+            if (bookid <= 0)
             {
                 //Response.StatusCode = 400;
                 //return Content("Book id can't be less than or equeal to zero");
@@ -38,7 +42,7 @@ namespace IActionResultExample.Controllers
                 return BadRequest("Book id can't be less than or equeal to zero");
             }
 
-            if (bookId > 1000)
+            if (bookid > 1000)
             {
                 //Response.StatusCode = 404;
                 //return Content("Book id can't be greather than 1000");
@@ -47,7 +51,7 @@ namespace IActionResultExample.Controllers
             }
 
             // isloggedin should be true
-            if (Convert.ToBoolean(Request.Query["isloggedin"]) == false)
+            if (isloggedin == false)
             {
                 //Response.StatusCode = 401;
                 //return Content("User must be authenticated");
@@ -89,7 +93,9 @@ namespace IActionResultExample.Controllers
             // 302 - found
             //return Redirect($"store/books/{bookId}");
             // 301 - moved permanently
-            return RedirectPermanent($"store/books/{bookId}");
+            //return RedirectPermanent($"store/books/{bookid}");
+
+            return Content($"BookID: {bookid}", "text/plain");
         }
     }
 }
