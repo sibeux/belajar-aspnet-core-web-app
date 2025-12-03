@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using IActionResultExample.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace IActionResultExample.Controllers
 {
@@ -9,7 +10,7 @@ namespace IActionResultExample.Controllers
         // bookstore/1/false?bookid=10&isloggedin=true
         //public IActionResult Index()
         // Model binding
-        public IActionResult Index([FromRoute]int? bookid, [FromQuery]bool? isloggedin)
+        public IActionResult Index([FromRoute]int? bookid, [FromQuery]bool? isloggedin, Book book)
             // Ambil masing-masing value dari route atau query { bookid = 1, isloggedin = true }
         {
             // Book id should be applied
@@ -89,7 +90,7 @@ namespace IActionResultExample.Controllers
             // 301 - moved permanently
             //return RedirectPermanent($"store/books/{bookid}");
 
-            return Content($"BookID: {bookid}", "text/plain");
+            return Content($"BookID: {bookid}, book: {book}", "text/plain");
         }
     }
 }
