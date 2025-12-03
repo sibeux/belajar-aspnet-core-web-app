@@ -35,7 +35,8 @@ namespace ModelValidationExample.Models
         [DateRangeValidator("FromDate", ErrorMessage = "'From Date' should be older than or equal to 'To Date'")]
         public DateTime? ToDate { get; set; }
 
-        [BindNever]
+        // Berbeda sama dengan [bind] di HomeController, bindnever akan mengabaikan atribute ini meskipun atribut ini diisi.
+        //[BindNever]
         public int? Age { get; set;  }
 
         public override string ToString()

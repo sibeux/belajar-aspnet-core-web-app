@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ModelValidationExample.CustomModelBinders;
 using ModelValidationExample.Models;
 
 namespace ModelValidationExample.Controllers
@@ -8,7 +9,7 @@ namespace ModelValidationExample.Controllers
         [Route("register")]
         //Jika ada bind, maka yang seolah-olah diterima adalah atribute ini aja. meskipun atribute yang tidak di-bind sudah diisi, tetap dianggap null.
         //public IActionResult Index([Bind(nameof(Person.PersonName), nameof(Person.Email), nameof(Person.Age), nameof(Person.Password), nameof(Person.ConfirmPassword))] Person person)
-        public IActionResult Index(Person person)
+        public IActionResult Index([ModelBinder(BinderType = typeof(PersonModelBinder))] Person person)
         {
             if (!ModelState.IsValid)
             {
