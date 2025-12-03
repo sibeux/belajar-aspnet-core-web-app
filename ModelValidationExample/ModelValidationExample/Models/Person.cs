@@ -6,7 +6,7 @@ namespace ModelValidationExample.Models
     {
         [Required]
         public string? PersonName { get; set;  }
-        [Required]
+        [Required(ErrorMessage = "Email tidak boleh kosong")]
         public string? Email { get; set;  }
         public string? Phone { get; set;  }
         public string? Password { get; set;  }
