@@ -4,10 +4,13 @@ namespace IActionResultExample.Controllers
 {
     public class HomeController : Controller
     {
-        [Route("bookstore")]
+        // model binding: route parameter lebih utama daripada query paramter
+        [Route("bookstore/{bookid?}/{isloggedin?}")]
+        // bookstore/1/false?bookid=10&isloggedin=true
         //public IActionResult Index()
         // Model binding
-        public IActionResult Index(int? bookid, bool? isloggedin)
+        public IActionResult Index([FromRoute]int? bookid, [FromQuery]bool? isloggedin)
+            // Ambil masing-masing value dari route atau query { bookid = 1, isloggedin = true }
         {
             // Book id should be applied
             //if (!Request.Query.ContainsKey("bookid"))
@@ -21,15 +24,6 @@ namespace IActionResultExample.Controllers
                 //return new BadRequestResult();
 
                 return BadRequest("Book id is not supllied or maybe empty");
-            }
-
-            // Book id can't be less than or equal to zero
-            if (bookid <= 0)
-            {
-                //Response.StatusCode = 400;
-                //return Content("Book id can't be null or empty");
-
-                return BadRequest("Book id can't be less than or equal to zero");
             }
 
             // book id should be 1 to 1000
