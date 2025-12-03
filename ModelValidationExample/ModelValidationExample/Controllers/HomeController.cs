@@ -12,7 +12,7 @@ namespace ModelValidationExample.Controllers
 
         // model binder
         //public IActionResult Index([ModelBinder(BinderType = typeof(PersonModelBinder))] Person person)
-        public IActionResult Index(Person person)
+        public IActionResult Index(Person person, [FromHeader(Name = "User-Agent")] string UserAgent)
         {
             if (!ModelState.IsValid)
             {
@@ -33,7 +33,7 @@ namespace ModelValidationExample.Controllers
                 return BadRequest(errors);
             }
 
-            return Content($"{person}");
+            return Content($"{person}, {UserAgent}");
         }
     }
 }
