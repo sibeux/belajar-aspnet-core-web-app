@@ -1,17 +1,26 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModelValidationExample.Models
 {
     public class Person
     {
+        // Property yang pakai validate never tidak pernah dicek
+        //[ValidateNever]
+
         [Required(ErrorMessage = "{0} tidak boleh kosong")]
         [Display(Name = "Nama Orang")]
+        [RegularExpression("^[A-za-z .]*$", ErrorMessage = "{0} must be only alphabet")]
         public string? PersonName { get; set;  }
         [Required]
+        [EmailAddress(ErrorMessage = "Email is not valid")]
         public string? Email { get; set;  }
+        [Phone(ErrorMessage = "Phone number is not valid")]
         public string? Phone { get; set;  }
         [StringLength(maximumLength: 12, MinimumLength = 6, ErrorMessage = "{0} harus di antara minimum:{2}-maximum:{1} digit")]
+        [Required]
         public string? Password { get; set;  }
+        [Compare("Password", ErrorMessage = "Password dan Confirm Password harus sama")]
         public string? ConfirmPassword { get; set;  }
         [Range(1, 99.99, ErrorMessage = "{0} should be between ${1} and ${2}")]
         public double? Price { get; set;  }
