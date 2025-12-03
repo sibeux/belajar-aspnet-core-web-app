@@ -24,10 +24,11 @@ namespace ModelValidationExample.CustomValidators
 
                 if (from_date > to_date)
                 {
-                    return new ValidationResult(ErrorMessage, new string[]
-                    {
-                        OtherPropertyName, validationContext.MemberName
-                    });
+                    return new ValidationResult(ErrorMessage,[
+                        //OtherPropertyName, validationContext.MemberName
+                        OtherPropertyName, validationContext.MemberName ?? otherProperty.Name,
+                        ]
+                    );
                 } else
                     {
                         return ValidationResult.Success;

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ModelValidationExample.Models
 {
-    public class Person
+    public class Person : IValidatableObject
     {
         // Property yang pakai validate never tidak pernah dicek
         //[ValidateNever]
@@ -34,9 +34,22 @@ namespace ModelValidationExample.Models
         [DateRangeValidator("FromDate", ErrorMessage = "'From Date' should be older than or equal to 'To Date'")]
         public DateTime? ToDate { get; set; }
 
+        public int? Age { get; set;  }
+
         public override string ToString()
         {
             return $"Person object - Person name: {PersonName}, Email: {Email}, Phone: {Phone}, Password: {Password}, Confirm Password: {ConfirmPassword}, Price: {Price}";
+        }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (DateOfBirth.HasValue == false && Age.HasValue == false)
+            {
+               yield return new ValidationResult("TTL dan Age harus diisi", new[]
+                {
+                    nameof(Age)
+                });
+            }
         }
     }
 }
