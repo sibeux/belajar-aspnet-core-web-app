@@ -85,6 +85,7 @@ namespace IActionResultExample.Controllers
             //return new LocalRedirectResult($"store/books/{bookId}", true);
             //return LocalRedirectPermanent(($"store/books/{bookId}"));
 
+            // Redirect bisa diarahkan ke web luar, eg: medsos/web apapun
             // 302 - found
             //return Redirect($"store/books/{bookId}");
             // 301 - moved permanently
