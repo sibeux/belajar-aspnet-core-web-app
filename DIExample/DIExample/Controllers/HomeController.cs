@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Autofac;
+using Microsoft.AspNetCore.Mvc;
 using ServiceContracts;
 using Services;
 
@@ -11,16 +12,18 @@ namespace DIExample.Controllers
         private readonly ICitiesService _citiesService1;
         private readonly ICitiesService _citiesService2;
         private readonly ICitiesService _citiesService3;
-        private readonly IServiceScopeFactory _serviceScopeFactory;
+        //private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly ILifetimeScope _lifeTimeScope;
 
         // constructor
-        public HomeController(ICitiesService citiesService1, ICitiesService citiesService2, ICitiesService citiesService3, IServiceScopeFactory serviceScopeFactory)
+        public HomeController(ICitiesService citiesService1, ICitiesService citiesService2, ICitiesService citiesService3, ILifetimeScope serviceScopeFactory)
+            //IServiceScopeFactory serviceScopeFactory)
         {
             // create object of CitiesService class
             _citiesService1 = citiesService1; //new CitiesService();
             _citiesService2 = citiesService2;
             _citiesService3 = citiesService3;
-            _serviceScopeFactory = serviceScopeFactory;
+            _lifeTimeScope = serviceScopeFactory;
         }
         
 
@@ -36,9 +39,12 @@ namespace DIExample.Controllers
 
             ViewBag.InstanceId_CitiesService_3 = _citiesService3.ServiceInstanceId;
 
-            using (IServiceScope scope = _serviceScopeFactory.CreateScope()) {
+            //using (IServiceScope scope = _lifeTimeScope.CreateScope()) {
+            using (ILifetimeScope scope = _lifeTimeScope.BeginLifetimeScope
+                ()) {
                 //inject CitiesService
-                ICitiesService citiesService =  scope.ServiceProvider.GetRequiredService<ICitiesService>();
+                //ICitiesService citiesService =  scope.ServiceProvider.GetRequiredService<ICitiesService>();
+                ICitiesService citiesService =  scope.Resolve<ICitiesService>();
 
                 //DB work
                 ViewBag.InstanceId_CitiesService_InScope = citiesService.ServiceInstanceId;
