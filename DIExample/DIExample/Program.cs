@@ -7,11 +7,11 @@ builder.Services.Add(new ServiceDescriptor(
     typeof(ICitiesService),
     typeof(CitiesService),
     // berbeda di tiap request
-    ServiceLifetime.Transient 
+    //ServiceLifetime.Transient 
     // sama di tiap request
-    //ServiceLifetime.Scoped
-    // hidup selamanya, selama aplikasi tidak direstart
-    //ServiceLifetime.Singleton
+    ServiceLifetime.Scoped
+// hidup selamanya, selama aplikasi tidak direstart
+//ServiceLifetime.Singleton
 ));
 var app = builder.Build();
 
