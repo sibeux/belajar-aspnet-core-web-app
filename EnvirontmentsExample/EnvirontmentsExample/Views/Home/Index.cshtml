@@ -6,3 +6,13 @@
 <div class="box">
     Environment: @ViewBag.CurrentEnvirontment
 </div>
+
+@* termasuk *@
+<environment include="Development">
+<button class="button button-blue-back">Button only for Development Environment</button>
+</environment>
+
+@* kecuali *@
+<environment exclude="Development">
+<button class="button button-blue-back">Button only for Development Environment</button>
+</environment>
