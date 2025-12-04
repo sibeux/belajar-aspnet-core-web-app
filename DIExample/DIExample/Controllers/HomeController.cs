@@ -6,6 +6,7 @@ namespace DIExample.Controllers
 {
     public class HomeController : Controller
     {
+        /*
         //private readonly CitiesService _citiesService;
         private readonly ICitiesService _citiesService;
 
@@ -15,9 +16,10 @@ namespace DIExample.Controllers
             // create object of CitiesService class
             _citiesService = citiesService; //new CitiesService();
         }
+        */
 
         [Route("/")]
-        public IActionResult Index()
+        public IActionResult Index([FromServices] ICitiesService _citiesService)
         {
             List<string> cities = _citiesService.GetCities();
             return View(cities);
