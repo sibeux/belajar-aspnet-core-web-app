@@ -1,17 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ServiceContracts;
 using Services;
 
 namespace DIExample.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly CitiesService _citiesService;
+        //private readonly CitiesService _citiesService;
+        private readonly ICitiesService _citiesService;
 
         // constructor
         public HomeController()
         {
             // create object of CitiesService class
-            _citiesService = new CitiesService();
+            _citiesService = null; //new CitiesService();
         }
 
         [Route("/")]
