@@ -8,18 +8,24 @@
             _httpClientFactory = httpClientFactory;
         }
 
-        public void method()
+        public async Task method()
         {
             using (HttpClient httpClient = _httpClientFactory.CreateClient())
             {
                 HttpRequestMessage httpRequestMessage = new HttpRequestMessage()
                 {
-                    RequestUri = new Uri("url"),
+                    RequestUri = new Uri("https://finnhub.io/api/v1/quote?symbol=AAPL&token=d4p90gpr01qnosach45gd4p90gpr01qnosach460"),
                     Method = HttpMethod.Get,
                 };
 
                 HttpResponseMessage httpResponseMessage = 
-                httpClient.SendAsync(httpRequestMessage).Wait();
+                await httpClient.SendAsync(httpRequestMessage);
+
+                Stream stream = httpResponseMessage.Content.ReadAsStream();
+
+                StreamReader streamReader =  new StreamReader(stream);
+
+                streamReader.ReadToEnd();
             }
         }
     }
