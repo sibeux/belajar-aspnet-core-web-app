@@ -23,9 +23,20 @@ namespace ConfigurationExample.Controllers
             //ViewBag.ClientSecret = _configuration.GetValue("weatherapi:ClientSecret", "Key has been founded, so it will be ignored");
 
             // alternative
-            IConfiguration weatherapiSection = _configuration.GetSection("weatherapi");
-            ViewBag.ClientID = weatherapiSection["ClientID"];
-            ViewBag.ClientSecret = weatherapiSection["ClientSecret"];
+            //IConfiguration weatherapiSection = _configuration.GetSection("weatherapi");
+
+            //ViewBag.ClientID = weatherapiSection["ClientID"];
+            //ViewBag.ClientSecret = weatherapiSection["ClientSecret"];
+
+            //Bind: Loads configuration values into a new options object
+            //WeatherApiOptions options = _configuration.GetSection("weatherapi").Get<WeatherApiOptions>();
+
+            //Bind: Loads configuration values into existing options object
+            WeatherApiOptions options = new WeatherApiOptions();
+            _configuration.GetSection("weatherapi").Bind(options);
+
+            ViewBag.ClientID = options.ClientID;
+            ViewBag.ClientSecret = options.ClientSecret;
 
             return View();
         }
