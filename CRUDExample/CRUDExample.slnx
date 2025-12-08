@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="CRUDExample/CRUDExample.csproj" />
+  <Project Path="CRUDTests/CRUDTests.csproj" />
+</Solution>
