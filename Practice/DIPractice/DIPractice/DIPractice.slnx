@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="../ServiceContracts/ServiceContracts.csproj" Id="99054af3-e7c2-47cd-aa53-9d482edec7ba" />
+  <Project Path="../Services/Services.csproj" Id="980554a1-b439-41a8-a239-1f601dd9f4df" />
+  <Project Path="DIPractice.csproj" />
+</Solution>

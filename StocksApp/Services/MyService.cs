@@ -1,4 +1,6 @@
-﻿namespace StocksApp.Services
+﻿using System.Text.Json;
+
+namespace StocksApp.Services
 {
     public class MyService
     {
@@ -25,7 +27,8 @@
 
                 StreamReader streamReader =  new StreamReader(stream);
 
-                streamReader.ReadToEnd();
+                string response = streamReader.ReadToEnd();
+                JsonSerializer.Deserialize<Dictionary<string, object>>(response);
             }
         }
     }
