@@ -8,7 +8,7 @@
             // arrange
             MyMath mm = new MyMath();
             int input1 = 10, input2 = 5;
-            int expected = input1 + input2;
+            int expected = 15;
 
             // act
             int actual = mm.Add(input1, input2);
