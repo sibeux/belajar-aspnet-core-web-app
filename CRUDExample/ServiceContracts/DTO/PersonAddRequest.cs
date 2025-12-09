@@ -2,16 +2,20 @@
 using ServiceContracts.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace ServiceContracts.DTO
 {
     /// <summary>
-    /// Acts as a DTO for inserting
+    /// Acts as a DTO for inserting a new person
     /// </summary>
     public class PersonAddRequest
     {
+        [Required]
         public string? PersonName { get; set; }
+        [Required]
+        [EmailAddress]
         public string? Email { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public GenderOptions? Gender { get; set; }
