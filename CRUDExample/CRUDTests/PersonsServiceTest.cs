@@ -1,5 +1,6 @@
 ﻿using ServiceContracts;
 using ServiceContracts.DTO;
+using ServiceContracts.Enums;
 using Services;
 using Xunit.Abstractions;
 
@@ -369,7 +370,14 @@ namespace CRUDTests
             }
 
             //act
-            List<PersonResponse> persons_list_from_search = _personService.GetFilteredPersons(nameof(PersonResponse.PersonName), "ma");
+            List<PersonResponse> persons_list_from_search = _personService.GetFilteredPersons(nameof(PersonResponse.PersonName), "jo");
+
+            //print person_list_from_get
+            _testOutputHelper.WriteLine("actual: ");
+            foreach (PersonResponse person_response_from_get in persons_list_from_search)
+            {
+                _testOutputHelper.WriteLine(person_response_from_get.ToString());
+            }
 
             //assert
             foreach (PersonResponse person_response_from_add in person_response_list_from_add)
@@ -382,12 +390,100 @@ namespace CRUDTests
                     }
                 }
             }
+        }
+        #endregion
+
+        #region GetSortedPersons
+        //when we sort based on PersonName in desc, it should return the sorted persons in descending order on PersonName
+        [Fact]
+        public void GetSortedPersons()
+        {
+            //arrange
+            CountryAddRequest country_request_1 = new CountryAddRequest()
+            {
+                CountryName = "USA"
+            };
+            CountryAddRequest country_request_2 = new CountryAddRequest()
+            {
+                CountryName = "UK"
+            };
+
+            CountryResponse country_response_1 =
+            _countriesService.AddCountry(country_request_1);
+            CountryResponse country_response_2 =
+            _countriesService.AddCountry(country_request_2);
+
+            PersonAddRequest person_request_1 = new PersonAddRequest()
+            {
+                PersonName = "Smith",
+                Email = "smith@mail.com",
+                Gender = ServiceContracts.Enums.GenderOptions.Male,
+                Address = "address",
+                CountryID = country_response_1.CountryID,
+                DateOfBirth = DateTime.Parse("2000-01-01"),
+                ReceiveNewsLetters = true
+            };
+
+            PersonAddRequest person_request_2 = new PersonAddRequest()
+            {
+                PersonName = "john",
+                Email = "smith@mail.com",
+                Gender = ServiceContracts.Enums.GenderOptions.Male,
+                Address = "address",
+                CountryID = country_response_1.CountryID,
+                DateOfBirth = DateTime.Parse("2000-01-01"),
+                ReceiveNewsLetters = true
+            };
+
+            PersonAddRequest person_request_3 = new PersonAddRequest()
+            {
+                PersonName = "kate",
+                Email = "smith@mail.com",
+                Gender = ServiceContracts.Enums.GenderOptions.Male,
+                Address = "address",
+                CountryID = country_response_1.CountryID,
+                DateOfBirth = DateTime.Parse("2000-01-01"),
+                ReceiveNewsLetters = true
+            };
+
+            List<PersonAddRequest> person_requests = new List<PersonAddRequest>()
+            {
+                person_request_1, person_request_2, person_request_3
+            };
+
+            List<PersonResponse> person_response_list_from_add = new List<PersonResponse>();
+
+            foreach (PersonAddRequest person_request in person_requests)
+            {
+                PersonResponse person_response = _personService.AddPerson(person_request);
+                person_response_list_from_add.Add(person_response);
+            }
+
+            //print person_response_list_from_add
+            _testOutputHelper.WriteLine("Expected: ");
+            foreach (PersonResponse person_response_from_add in person_response_list_from_add)
+            {
+                _testOutputHelper.WriteLine(person_response_from_add.ToString());
+            }
+
+            List<PersonResponse> allPersons = _personService.GetAllPersons();
+
+            //act
+            List<PersonResponse> persons_list_from_sort = _personService.GetSortedPersons(allPersons, nameof(PersonResponse.PersonName), SortOrderOptions.DESC);
 
             //print person_list_from_get
             _testOutputHelper.WriteLine("actual: ");
-            foreach (PersonResponse person_response_from_get in persons_list_from_search)
+            foreach (PersonResponse person_response_from_get in persons_list_from_sort)
             {
                 _testOutputHelper.WriteLine(person_response_from_get.ToString());
+            }
+
+            person_response_list_from_add = person_response_list_from_add.OrderByDescending(temp => temp.PersonName).ToList();
+
+            //assert
+            for (int i = 0; i < person_response_list_from_add.Count; i++)
+            {
+                Assert.Equal(person_response_list_from_add[i], persons_list_from_sort[i]);
             }
         }
         #endregion
