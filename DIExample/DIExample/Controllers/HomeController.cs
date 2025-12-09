@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using Microsoft.AspNetCore.Mvc;
 using ServiceContracts;
-using Services;
 
 namespace DIExample.Controllers
 {

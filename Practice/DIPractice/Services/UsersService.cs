@@ -25,5 +25,10 @@ namespace Services
         {
             return $"This is my name: {name} with id: {usersID}";
         }
+
+        public string getFriendAvatar(string name) { 
+            return $"This is my name: {name} with id: {usersID}";
+
+        }
     }
 }
