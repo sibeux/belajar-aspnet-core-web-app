@@ -371,13 +371,6 @@ namespace CRUDTests
             //act
             List<PersonResponse> persons_list_from_search = _personService.GetFilteredPersons(nameof(PersonResponse.PersonName), "ma");
 
-            //print person_list_from_get
-            _testOutputHelper.WriteLine("actual: ");
-            foreach (PersonResponse person_response_from_get in persons_list_from_search)
-            {
-                _testOutputHelper.WriteLine(person_response_from_get.ToString());
-            }
-
             //assert
             foreach (PersonResponse person_response_from_add in person_response_list_from_add)
             {
@@ -388,6 +381,13 @@ namespace CRUDTests
                         Assert.Contains(person_response_from_add, persons_list_from_search);
                     }
                 }
+            }
+
+            //print person_list_from_get
+            _testOutputHelper.WriteLine("actual: ");
+            foreach (PersonResponse person_response_from_get in persons_list_from_search)
+            {
+                _testOutputHelper.WriteLine(person_response_from_get.ToString());
             }
         }
         #endregion
