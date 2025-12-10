@@ -18,6 +18,7 @@ namespace ServiceContracts.DTO
         [EmailAddress]
         public string? Email { get; set; }
         public DateTime? DateOfBirth { get; set; }
+        [Required]
         public GenderOptions? Gender { get; set; }
         public Guid? CountryID { get; set; }
         public string? Address { get; set; }

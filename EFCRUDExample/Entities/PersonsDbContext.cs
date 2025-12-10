@@ -44,5 +44,11 @@ namespace Entities
                     modelBuilder.Entity<Person>().HasData(person);
                 }
        }
+
+        // buat eksekusi query stored procedure-nya
+        public List<Person> sp_GetAllPerson()
+        {
+            return Persons.FromSqlRaw("EXECUTE [dbo].[GetAllPersons]").ToList();
+        }
     }
 }
