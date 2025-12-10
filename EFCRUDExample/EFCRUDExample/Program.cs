@@ -12,8 +12,14 @@ builder.Services.AddSingleton<IPersonsService, PersonsService>();
 
 builder.Services.AddDbContext<PersonsDbContext>(options =>
 {
-    options.UseSqlServer();
+    // Pendekatan ini kurang benar, karena mencampurkan konfigurasi dengan code. Konfigurasi ini dipindahkan ke appsettings.json
+
+    //options.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=PersonsDatabase;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False;Command Timeout=30");
+
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+// Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=PersonsDatabase;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False;Command Timeout=30
 
 var app = builder.Build();
 
