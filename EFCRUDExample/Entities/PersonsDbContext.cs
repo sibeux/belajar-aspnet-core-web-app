@@ -7,6 +7,10 @@ namespace Entities
 {
     public class PersonsDbContext : DbContext
     {
+        public PersonsDbContext(DbContextOptions options) : base(options)
+        {
+
+        }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Person> Persons { get; set; }
 
@@ -15,25 +19,30 @@ namespace Entities
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Country>().ToTable("Countries");
-            modelBuilder.Entity<Country>().ToTable("Persons");
+            modelBuilder.Entity<Person>().ToTable("Persons");
 
             //Seed to countries
             string countriesJson = System.IO.File.ReadAllText("countries.json");
-           List<Country> countries = System.Text.Json.JsonSerializer.Deserialize<List<Country>>(countriesJson);
+           List<Country>? countries = System.Text.Json.JsonSerializer.Deserialize<List<Country>>(countriesJson);
 
-            foreach (Country country in countries)
+            if (countries != null)
             {
-                modelBuilder.Entity<Country>().HasData(country);
+                foreach (Country country in countries)
+                {
+                    modelBuilder.Entity<Country>().HasData(country);
+                }
             }
+
 
             //Seed to Persons
-            string personsJson = System.IO.File.ReadAllText("countries.json");
-           List<Country> persons = System.Text.Json.JsonSerializer.Deserialize<List<Country>>(personsJson);
+            string personsJson = System.IO.File.ReadAllText("persons.json");
+           List<Person>? persons = System.Text.Json.JsonSerializer.Deserialize<List<Person>>(personsJson);
 
-            foreach (Country person in persons)
-            {
-                modelBuilder.Entity<Country>().HasData(persons);
-            }
+            if (persons != null)
+                foreach (Person person in persons)
+                {
+                    modelBuilder.Entity<Person>().HasData(person);
+                }
        }
     }
 }
