@@ -56,13 +56,14 @@ namespace Entities
         {
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@PersonName", person.PersonID),
+                new SqlParameter("@PersonID", person.PersonID),
                 new SqlParameter("@PersonName", person.PersonName),
                 new SqlParameter("@Email", person.Email),
                 new SqlParameter("@DateOfBirth", person.DateOfBirth),
                 new SqlParameter("@Gender", person.Gender),
                 new SqlParameter("@CountryID", person.CountryID),
-                new SqlParameter("@Address", person.Address),
+                /* Ini kutambahkan sendiri. Kalau form null, berikan default value. harusnya bisa dari model class sih, gak harus di sini. */
+                new SqlParameter("@Address", person.Address ?? "Default address"),
                 new SqlParameter("@ReceiveNewsLetters", person.ReceiveNewsLetters),
             };
 
