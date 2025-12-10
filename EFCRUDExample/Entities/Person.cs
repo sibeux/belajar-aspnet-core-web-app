@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Entities
@@ -35,6 +36,8 @@ namespace Entities
 
         public string? TIN { get; set; }
 
-
+        // ini sebagai navigational property relasi many to one ke Country
+        [ForeignKey("CountryID")]
+        public Country? Country { get; set; }
     }
 }

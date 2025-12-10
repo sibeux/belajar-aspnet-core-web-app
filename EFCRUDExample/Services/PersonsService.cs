@@ -5,6 +5,7 @@ using ServiceContracts;
 using System.ComponentModel.DataAnnotations;
 using Services.Helpers;
 using ServiceContracts.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace Services
 {
@@ -47,12 +48,13 @@ namespace Services
         }
 
 
-        private PersonResponse ConvertPersonToPersonResponse(Person person)
-        {
-            PersonResponse personResponse = person.ToPersonResponse();
-            personResponse.Country = _countriesService.GetCountryByCountryID(person.CountryID)?.CountryName;
-            return personResponse;
-        }
+        //private PersonResponse ConvertPersonToPersonResponse(Person person)
+        //{
+        //    PersonResponse personResponse = person.ToPersonResponse();
+        //    //personResponse.Country = _countriesService.GetCountryByCountryID(person.CountryID)?.CountryName;
+        //    personResponse.Country = person.Country?.CountryName;
+        //    return personResponse;
+        //}
 
         public PersonResponse AddPerson(PersonAddRequest? personAddRequest)
         {
@@ -78,14 +80,18 @@ namespace Services
             //_db.sp_InsertPerson(person);
 
             //convert the Person object into PersonResponse type
-            return ConvertPersonToPersonResponse(person);
+            //return ConvertPersonToPersonResponse(person);
+            return person.ToPersonResponse();
         }
 
 
         public List<PersonResponse> GetAllPersons()
         {
             //SELECT * from Persons
-            return _db.Persons.ToList().Select(temp => ConvertPersonToPersonResponse(temp)).ToList();
+            var persons = _db.Persons.Include("Country").ToList();
+
+            //return persons.Select(temp => ConvertPersonToPersonResponse(temp)).ToList();
+            return persons.Select(temp => temp.ToPersonResponse()).ToList();
 
             //return _db.sp_GetAllPerson().Select(temp => ConvertPersonToPersonResponse(temp)).ToList();
         }
@@ -96,11 +102,13 @@ namespace Services
             if (personID == null)
                 return null;
 
-            Person? person = _db.Persons.FirstOrDefault(temp => temp.PersonID == personID);
+            Person? person = _db.Persons.Include("Country")
+                .FirstOrDefault(temp => temp.PersonID == personID);
             if (person == null)
                 return null;
 
-            return ConvertPersonToPersonResponse(person);
+            //return ConvertPersonToPersonResponse(person);
+            return person.ToPersonResponse();
         }
 
         public List<PersonResponse> GetFilteredPersons(string searchBy, string? searchString)
@@ -229,7 +237,8 @@ namespace Services
 
             _db.SaveChanges (); // UPDATE
 
-            return ConvertPersonToPersonResponse(matchingPerson);
+            //return ConvertPersonToPersonResponse(matchingPerson);
+            return matchingPerson.ToPersonResponse();
         }
 
         public bool DeletePerson(Guid? personID)
