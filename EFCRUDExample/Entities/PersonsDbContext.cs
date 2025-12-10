@@ -44,6 +44,13 @@ namespace Entities
                 {
                     modelBuilder.Entity<Person>().HasData(person);
                 }
+
+            //Fluent API
+            modelBuilder.Entity<Person>().Property(temp => temp.TIN)
+                .HasColumnName("TaxIdentificationNumber")
+                // varchar khusus untuk alphabet dan number. jadi lebih ringan karena tidak perlu karakter khusus
+                .HasColumnType("varchar(8)")
+                .HasDefaultValue("ABC12345");
        }
 
         // buat eksekusi query stored procedure-nya
