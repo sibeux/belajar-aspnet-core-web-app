@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="EFCRUDExample/EFCRUDExample.csproj" />
+  <Project Path="Entities/Entities.csproj" />
+  <Project Path="ServiceContracts/ServiceContracts.csproj" />
+  <Project Path="Services/Services.csproj" />
+  <Project Path="TestProject1/CRUDTests.csproj" />
+</Solution>
