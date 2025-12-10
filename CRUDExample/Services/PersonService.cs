@@ -201,7 +201,21 @@ namespace Services
 
         public bool DeletePerson(Guid? PersonID)
         {
-            throw new NotImplementedException   ();
+            if (PersonID == null)
+            {
+                throw new ArgumentNullException(nameof(PersonID));
+            }
+
+            Person? person = _person.FirstOrDefault(temp => temp.PersonId == PersonID);
+
+            if (person == null) 
+            {
+                return false;
+            }
+
+            _person.RemoveAll(temp => temp.PersonId == PersonID);
+
+            return true;
         }
     }
 }
