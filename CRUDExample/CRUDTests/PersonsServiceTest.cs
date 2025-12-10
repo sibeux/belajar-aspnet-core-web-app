@@ -536,7 +536,7 @@ namespace CRUDTests
 
             PersonAddRequest person_add_request = new PersonAddRequest()
             {
-                PersonName = "John", CountryID = country_response_from_add.CountryID
+                PersonName = "John", CountryID = country_response_from_add.CountryID, Email = "saya@mail.com", Gender = GenderOptions.Male,
             };
             PersonResponse person_response_from_add = _personService.AddPerson(person_add_request);
 
@@ -565,13 +565,13 @@ namespace CRUDTests
             PersonAddRequest person_add_request = new PersonAddRequest()
             {
                 // ada atribute yang tidak dimasukkan ke sini dari course
-                PersonName = "John", CountryID = country_response_from_add.CountryID
+                PersonName = "John", CountryID = country_response_from_add.CountryID, Email = "habiqi@sibe.com", Gender = GenderOptions.Male,
             };
             PersonResponse person_response_from_add = _personService.AddPerson(person_add_request);
 
             PersonUpdateRequest person_update_request = person_response_from_add.ToPersonUpdateRequest();
             person_update_request.PersonName = "William";
-            //ada atribute yang tidak dimasukkan ke sini dari course
+            person_update_request.Email = "sibe@gmail.com";
 
             //act
             PersonResponse person_response_from_update = _personService.UpdatePerson(person_update_request);
