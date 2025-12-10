@@ -46,12 +46,23 @@ namespace Entities
                 }
 
             //Fluent API
+            // Cari kolom/variable model yang punya nama TIN
             modelBuilder.Entity<Person>().Property(temp => temp.TIN)
+                // Ubah jadi nama kolom ini di DB
                 .HasColumnName("TaxIdentificationNumber")
+                // Ubah ke tipe data ini
                 // varchar khusus untuk alphabet dan number. jadi lebih ringan karena tidak perlu karakter khusus
                 .HasColumnType("varchar(8)")
+                // Berikan nilai default ini jika ada inputan baru.
                 .HasDefaultValue("ABC12345");
-       }
+
+            // Buat kolom ini sebagai index dan unik
+            //modelBuilder.Entity<Person>()
+            //    .HasIndex(temp => temp.TIN)
+            //    .IsUnique();
+
+            modelBuilder.Entity<Person>().ToTable(t => t.HasCheckConstraint("CHK_TIN", "len([TaxIdentificationNumber]) = 8"));
+        }
 
         // buat eksekusi query stored procedure-nya
         public List<Person> sp_GetAllPerson()
