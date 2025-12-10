@@ -76,7 +76,7 @@ namespace ServiceContracts.DTO
                 // person => PersonResponse
                 return new PersonResponse()
                 {
-                    PersonID = person.PersonId,
+                    PersonID = person.PersonID,
                     PersonName = person.PersonName,
                     Email = person.Email,
                     DateOfBirth = person.DateOfBirth,

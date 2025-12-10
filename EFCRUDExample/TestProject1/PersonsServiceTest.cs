@@ -16,7 +16,7 @@ namespace CRUDTests
         //consturctor
         public PersonsServiceTest(ITestOutputHelper testOutputHelper)
         {
-            _personService = new PersonService();
+            _personService = new PersonsService();
             _countriesService = new CountriesService();
             _testOutputHelper = testOutputHelper;
         }
