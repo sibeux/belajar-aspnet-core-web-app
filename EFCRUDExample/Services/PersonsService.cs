@@ -113,6 +113,8 @@ namespace Services
 
         public async Task<List<PersonResponse>> GetFilteredPersons(string searchBy, string? searchString)
         {
+            // Menggunakan List untuk fetch semua data dan simpan di memori adalah pendekatan yang kurang baik terutama untuk data yang besar.
+            // Selalu pakai IQueryable<Type> agar datanya dicari dari sql langsung, dan backend hanya menerima data yang sudah di-filter.
             List<PersonResponse> allPersons = await GetAllPersons();
             List<PersonResponse> matchingPersons = allPersons;
 
