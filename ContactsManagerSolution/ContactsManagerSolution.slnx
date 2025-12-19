@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="ContactsManager.Core/ContactsManager.Core.csproj" Id="4400a920-e4af-4ade-b3ee-99aa7e61c832" />
+    <Project Path="ContactsManager.UI/ContactsManager.UI.csproj" />
+  </Folder>
+  <Folder Name="/tests/" />
+</Solution>
