@@ -4,5 +4,9 @@
     <Project Path="ContactsManager.Infrastructure/ContactsManager.Infrastructure.csproj" Id="68dc134c-936f-48ca-95a1-0408ed71515d" />
     <Project Path="ContactsManager.UI/ContactsManager.UI.csproj" />
   </Folder>
-  <Folder Name="/tests/" />
+  <Folder Name="/tests/">
+    <Project Path="ContactsManager.ControllerTests/ContactsManager.ControllerTests.csproj" Id="6cb33777-d18d-4b10-bb42-201f2a931745" />
+    <Project Path="ContactsManager.IntegrationTests/ContactsManager.IntegrationTests.csproj" Id="9e6f05c9-0fa0-4536-a40b-73df4b418db9" />
+    <Project Path="ContactsManager.ServiceTests/ContactsManager.ServiceTests.csproj" Id="e18fc6f6-a5ea-40db-a652-5ef4957d04e7" />
+  </Folder>
 </Solution>
