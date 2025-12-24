@@ -50,6 +50,7 @@ namespace CRUDExample
    });
 
    services.AddTransient<PersonsListActionFilter>();
+    
 
    services.AddHttpLogging(options =>
    {
