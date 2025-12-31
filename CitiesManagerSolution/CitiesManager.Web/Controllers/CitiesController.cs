@@ -10,9 +10,10 @@ using CitiesManager.Web.Models;
 
 namespace CitiesManager.Web.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CitiesController : ControllerBase
+    // Pakai 1 turunan class CustomControllerBase biar tidak boiler-plate
+    //[Route("api/[controller]")]
+    //[ApiController]
+    public class CitiesController : CustomControllerBase
     {
         private readonly ApplicationDbContext _context;
 

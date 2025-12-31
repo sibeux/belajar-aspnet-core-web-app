@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CitiesManager.Web.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    // Pakai 1 turunan class CustomControllerBase biar tidak boiler-plate
+    //[Route("api/[controller]")]
+    //[ApiController]
     public class TestController : ControllerBase
     {
         [HttpGet]
