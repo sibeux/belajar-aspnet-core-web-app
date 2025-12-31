@@ -6,6 +6,7 @@ namespace CitiesManager.Web.Models
     {
         [Key]
         public Guid CityId { get; set; }
+        [Required]
         public string? CityName { get; set; }
     }
 }
