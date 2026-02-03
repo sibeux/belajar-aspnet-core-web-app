@@ -37,6 +37,11 @@ namespace CitiesManager.Web.Controllers
         }
 
         // GET: api/Cities/5
+        /// <summary>
+        /// To get a city (including city ID and city name) from 'cities' table by city ID
+        /// </summary>
+        /// <param name="cityID"></param>
+        /// <returns></returns>
         [HttpGet("{cityID}")]
         public async Task<ActionResult<City>> GetCity(Guid cityID)
         {
@@ -52,6 +57,12 @@ namespace CitiesManager.Web.Controllers
         }
 
         // PUT: api/Cities/5
+        /// <summary>
+        /// To update a city (including city ID and city name) in 'cities' table by city ID
+        /// </summary>
+        /// <param name="cityID"></param>
+        /// <param name="city"></param>
+        /// <returns></returns>
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{cityID}")]
         public async Task<IActionResult> PutCity(Guid cityID, [Bind(nameof(City.CityId), nameof(City.CityName))] City city)
@@ -92,6 +103,11 @@ namespace CitiesManager.Web.Controllers
         }
 
         // POST: api/Cities
+        /// <summary>
+        /// To create a new city (including city ID and city name) in 'cities' table
+        /// </summary>
+        /// <param name="city"></param>
+        /// <returns></returns>
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<City>> PostCity([Bind(nameof(City.CityId), nameof(city.CityName))] City city)
@@ -103,6 +119,11 @@ namespace CitiesManager.Web.Controllers
         }
 
         // DELETE: api/Cities/5
+        /// <summary>
+        /// To delete a city from 'cities' table by city ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCity(Guid id)
         {
