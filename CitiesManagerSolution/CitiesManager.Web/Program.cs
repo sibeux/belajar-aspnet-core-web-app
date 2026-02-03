@@ -2,6 +2,8 @@ using Asp.Versioning;
 using CitiesManager.Web.DatabaseContext;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,9 +39,9 @@ builder.Services.AddApiVersioning(config =>
     //config.ApiVersionReader = new HeaderApiVersionReader("api-version");
 })
 .AddMvc() // MENGHUBUNGKAN Versioning dengan Controller logic (PENTING!)
-.AddApiExplorer(options => // Membantu Swagger memisahkan versi API
+.AddApiExplorer(options => 
 {
-    options.GroupNameFormat = "'v'VVV";
+    options.GroupNameFormat = "'v'V"; // Menghasilkan "v1", "v2", dst.
     options.SubstituteApiVersionInUrl = true;
 });
 
@@ -47,29 +49,46 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+// builder.Services.AddOpenApi(); // Matikan OpenAPI bawaan agar tidak konflik dengan Swashbuckle
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer(); // generates description of all web API endpoints/action methods
 builder.Services.AddSwaggerGen(options => {
     // include XML comments (from code documentation) in the Swagger JSON and UI
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "api.xml"));
-}); // generates OpenAPI specification document
+
+    options.SwaggerDoc("v1", new OpenApiInfo() { Title = "Cities Web API", Version = "1.0" });
+    options.SwaggerDoc("v2", new OpenApiInfo() { Title = "Cities Web API", Version = "2.0" });
+
+// Memberitahu Swagger cara mencocokkan endpoint dengan dokumen versi yang sesuai.
+    options.DocInclusionPredicate((docName, apiDesc) =>
+    {
+        // Jika GroupName kosong (misal controller tanpa [ApiVersion]), masukkan ke v1
+        if (string.IsNullOrEmpty(apiDesc.GroupName))
+        {
+            return docName == "v1";
+        }
+        return apiDesc.GroupName == docName;
+    });
+});
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+// if (app.Environment.IsDevelopment())
+// {
+//     app.MapOpenApi();
+// }
 
 app.UseHsts();
 app.UseHttpsRedirection();
 
 app.UseSwagger(); // creates endpoint swagger.json
-app.UseSwaggerUI(); // creates swagger UI for testing all web API endpoints/action methods
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("v1/swagger.json", "Cities Web API v1.0");
+    options.SwaggerEndpoint("v2/swagger.json", "Cities Web API v2.0");
+}); // creates swagger UI for testing all web API endpoints/action methods
 
 app.UseAuthorization();
 
