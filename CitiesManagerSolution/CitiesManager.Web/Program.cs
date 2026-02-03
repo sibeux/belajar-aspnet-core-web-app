@@ -16,6 +16,9 @@ builder.Services.AddControllers(options =>
 })
     .AddXmlSerializerFormatters();
 
+// [error-solve-20260203-ambiguous-match] Konfigurasi API Versioning
+// Tanpa .AddMvc(), atribut [ApiVersion] di controller tidak akan terbaca oleh sistem routing
+// sehingga menyebabkan AmbiguousMatchException karena ada beberapa controller dengan nama yang sama.
 builder.Services.AddApiVersioning(config => 
 {
     config.DefaultApiVersion = new ApiVersion(1, 0);
@@ -23,8 +26,8 @@ builder.Services.AddApiVersioning(config =>
     config.ReportApiVersions = true;
     config.ApiVersionReader = new UrlSegmentApiVersionReader();
 })
-.AddMvc()
-.AddApiExplorer(options =>
+.AddMvc() // MENGHUBUNGKAN Versioning dengan Controller logic (PENTING!)
+.AddApiExplorer(options => // Membantu Swagger memisahkan versi API
 {
     options.GroupNameFormat = "'v'VVV";
     options.SubstituteApiVersionInUrl = true;
