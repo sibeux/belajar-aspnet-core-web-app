@@ -15,7 +15,10 @@ builder.Services.AddOpenApi();
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer(); // generates description of all web API endpoints/action methods
-builder.Services.AddSwaggerGen(); // generates OpenAPI specification document
+builder.Services.AddSwaggerGen(options => {
+    // include XML comments (from code documentation) in the Swagger JSON and UI
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "api.xml"));
+}); // generates OpenAPI specification document
 
 var app = builder.Build();
 

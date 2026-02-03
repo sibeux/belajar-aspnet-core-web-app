@@ -23,9 +23,14 @@ namespace CitiesManager.Web.Controllers
         }
 
         // GET: api/Cities
+        /// <summary>
+        /// To get list of cities (including city ID and city name) from 'cities' table
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         // Jika tidak diberi atribute [Http{method}], maka dia otomatis lihat nama function-nya.
         // Kalau ada GetFunc, PutFunc, PostFunc, DeleteFunc, maka dia akan otomatis jadi endpoint GET, PUT, POST, DELETE.
+        [Produces("application/json")]
         public async Task<ActionResult<IEnumerable<City>>> GetCities()
         {
             return await _context.Cities.ToListAsync();
