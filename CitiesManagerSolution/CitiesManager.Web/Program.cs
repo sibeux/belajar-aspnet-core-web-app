@@ -1,11 +1,20 @@
 using CitiesManager.Web.DatabaseContext;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddControllers(options =>
+{
+    // Options di sini berlaku secara global.
+    // Explicit set type response into application/json for all web endpoints API
+    options.Filters.Add(new ProducesAttribute("application/json"));
+    // Explicit set type request body into application/json for all web endpoints API
+    options.Filters.Add(new ConsumesAttribute("application/json"));
+})
+    .AddXmlSerializerFormatters();
 
-builder.Services.AddControllers();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));

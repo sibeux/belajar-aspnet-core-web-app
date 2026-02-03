@@ -28,9 +28,9 @@ namespace CitiesManager.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Produces("application/xml")] // Untuk ignore global filters dan set secara spesifik di method endpoint.
         // Jika tidak diberi atribute [Http{method}], maka dia otomatis lihat nama function-nya.
         // Kalau ada GetFunc, PutFunc, PostFunc, DeleteFunc, maka dia akan otomatis jadi endpoint GET, PUT, POST, DELETE.
-        [Produces("application/json")]
         public async Task<ActionResult<IEnumerable<City>>> GetCities()
         {
             return await _context.Cities.ToListAsync();
