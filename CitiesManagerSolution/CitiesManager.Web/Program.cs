@@ -24,7 +24,17 @@ builder.Services.AddApiVersioning(config =>
     config.DefaultApiVersion = new ApiVersion(1, 0);
     config.AssumeDefaultVersionWhenUnspecified = true;
     config.ReportApiVersions = true;
+
+    // Reads version number from request url at "apiVersion" constraint
+    // Ex: https://localhost:7254/api/v2/cities
     config.ApiVersionReader = new UrlSegmentApiVersionReader();
+
+    // Reads version number from request query string called "api-version"
+    // Ex: https://localhost:7254/api/cities?api-version=2.0
+    //config.ApiVersionReader = new QueryStringApiVersionReader();
+
+    // Reads version number from request header called "api-version". Eg: api-version: 1.0
+    //config.ApiVersionReader = new HeaderApiVersionReader("api-version");
 })
 .AddMvc() // MENGHUBUNGKAN Versioning dengan Controller logic (PENTING!)
 .AddApiExplorer(options => // Membantu Swagger memisahkan versi API
