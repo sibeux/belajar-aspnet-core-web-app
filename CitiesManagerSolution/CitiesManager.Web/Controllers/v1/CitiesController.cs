@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CitiesManager.Web.DatabaseContext;
 using CitiesManager.Web.Models;
+using Asp.Versioning;
 
-namespace CitiesManager.Web.Controllers
+namespace CitiesManager.Web.Controllers.v1
 {
     // Pakai 1 turunan class CustomControllerBase biar tidak boiler-plate
     //[Route("api/[controller]")]
     //[ApiController]
+    [ApiVersion("1.0")]
     public class CitiesController : CustomControllerBase
     {
         private readonly ApplicationDbContext _context;

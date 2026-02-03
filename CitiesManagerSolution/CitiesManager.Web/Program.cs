@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using CitiesManager.Web.DatabaseContext;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,20 @@ builder.Services.AddControllers(options =>
     options.Filters.Add(new ConsumesAttribute("application/json"));
 })
     .AddXmlSerializerFormatters();
+
+builder.Services.AddApiVersioning(config => 
+{
+    config.DefaultApiVersion = new ApiVersion(1, 0);
+    config.AssumeDefaultVersionWhenUnspecified = true;
+    config.ReportApiVersions = true;
+    config.ApiVersionReader = new UrlSegmentApiVersionReader();
+})
+.AddMvc()
+.AddApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'VVV";
+    options.SubstituteApiVersionInUrl = true;
+});
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
