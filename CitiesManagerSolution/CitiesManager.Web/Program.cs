@@ -39,7 +39,8 @@ builder.Services.AddApiVersioning(config =>
     //config.ApiVersionReader = new HeaderApiVersionReader("api-version");
 })
 .AddMvc() // MENGHUBUNGKAN Versioning dengan Controller logic (PENTING!)
-.AddApiExplorer(options => 
+// [error-solve-20260203-swagger-versioning] Sinkronisasi format nama grup dengan SwaggerDoc
+.AddApiExplorer(options =>
 {
     options.GroupNameFormat = "'v'V"; // Menghasilkan "v1", "v2", dst.
     options.SubstituteApiVersionInUrl = true;
@@ -53,6 +54,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer(); // generates description of all web API endpoints/action methods
+// [error-solve-20260203-swagger-versioning] Konfigurasi multi-version SwaggerDoc dan filter endpoint
 builder.Services.AddSwaggerGen(options => {
     // include XML comments (from code documentation) in the Swagger JSON and UI
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "api.xml"));
@@ -84,6 +86,7 @@ app.UseHsts();
 app.UseHttpsRedirection();
 
 app.UseSwagger(); // creates endpoint swagger.json
+// [error-solve-20260203-swagger-versioning] Menampilkan dropdown multi-versi di UI
 app.UseSwaggerUI(options =>
 {
     options.SwaggerEndpoint("v1/swagger.json", "Cities Web API v1.0");
