@@ -14,6 +14,7 @@ List<Product> products = new List<Product>
 // GET /products
 app.MapGet("/products", async (HttpContext context) => {
     //var content = string.Join('\n', products.Select(temp => temp.ToString()));
+    // ubah response ke JSON
     await context.Response.WriteAsync(JsonSerializer.Serialize(products));
 });
 
