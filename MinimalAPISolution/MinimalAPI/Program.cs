@@ -38,4 +38,5 @@ app.MapPost("/products", async (HttpContext context, Product product) => {
     await context.Response.WriteAsync("Product added successfully.");
 });
 
+// dotnet run --project MinimalAPI
 app.Run();
